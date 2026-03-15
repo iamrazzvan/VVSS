@@ -1,0 +1,32 @@
+@startuml
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class OrderItemValidator{
+ +validate(OrderItem): void
+}
+class OrderValidator{
+ +validate(Order): void
+}
+class ProductValidator{
+ +validate(Product): void
+}
+class RetetaValidator{
+ +validate(Reteta): void
+}
+class StocValidator{
+ +validate(Stoc): void
+}
+interface Validator<T> << interface >>{
+ +validate(T): void
+}
+
+OrderItemValidator      -[#008200,dashed]-^  Validator
+OrderValidator         "1" *-[#595959,plain]-> "itemValidator\n1" OrderItemValidator
+OrderValidator          -[#008200,dashed]-^  Validator
+ProductValidator        -[#008200,dashed]-^  Validator
+RetetaValidator         -[#008200,dashed]-^  Validator
+StocValidator           -[#008200,dashed]-^  Validator
+
+@enduml
