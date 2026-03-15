@@ -179,8 +179,17 @@ public class DrinkShopController {
 
     @FXML
     private void onAddNewReteta() {
-        Reteta r = new Reteta(service.getAllRetete().size()+1, new ArrayList<>(newRetetaList));
+
+        int id = service.getAllRetete()
+                .stream()
+                .mapToInt(Reteta::getId)
+                .max()
+                .orElse(0) + 1;
+
+        Reteta r = new Reteta(id, new ArrayList<>(newRetetaList));
+
         service.addReteta(r);
+
         newRetetaList.clear();
         initData();
     }
