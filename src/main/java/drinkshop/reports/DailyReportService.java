@@ -19,9 +19,6 @@ public class DailyReportService {
     }
 
     public int getTotalOrders() {
-//        List<Order> orders = StreamSupport.stream(repo.findAll().spliterator(), false)
-//                .collect(Collectors.toList());
-
         return repo.findAll().size();
     }
 }
