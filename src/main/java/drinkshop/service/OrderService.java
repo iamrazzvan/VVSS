@@ -47,6 +47,16 @@ public class OrderService {
     }
 
     public void addItem(Order o, OrderItem item) {
+
+        if(o == null)
+            throw new IllegalArgumentException("Order null");
+
+        if(item == null)
+            throw new IllegalArgumentException("OrderItem null");
+
+        if(item.getQuantity() <= 0)
+            throw new IllegalArgumentException("Cantitate invalida");
+
         o.getItems().add(item);
         orderRepo.update(o);
     }

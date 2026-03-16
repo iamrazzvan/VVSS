@@ -68,7 +68,7 @@ public class DrinkShopService {
     }
 
     public String generateReceipt(Order o) {
-        return ReceiptGenerator.generate(o, productService.getAllProducts());
+        return ReceiptGenerator.generate(o);
     }
 
     public double getDailyRevenue() {
