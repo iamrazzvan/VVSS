@@ -1,0 +1,14 @@
+OrderId,Product,Quantity,Price
+1,Cappuccino,3,36.0
+total order: 36.0 RON
+-------------------------------
+2,fanta,1,40.0
+total order: 40.0 RON
+-------------------------------
+3,Coca Cola,1,12.67
+total order: 12.67 RON
+-------------------------------
+4,Limonada,1,10.0
+total order: 10.0 RON
+-------------------------------
+TOTAL OF 17.03.2026 is: 98.67 RON

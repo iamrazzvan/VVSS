@@ -76,7 +76,7 @@ public class DrinkShopService {
     }
 
     public void exportCsv(String path) {
-        CsvExporter.exportOrders(productService.getAllProducts(), orderService.getAllOrders(), path);
+        CsvExporter.exportOrders(orderService.getAllOrders(), path);
     }
 
     // ---------- STOCK + RECIPE ----------
