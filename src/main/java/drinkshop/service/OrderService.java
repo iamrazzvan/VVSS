@@ -4,6 +4,8 @@ import drinkshop.domain.Order;
 import drinkshop.domain.OrderItem;
 import drinkshop.domain.Product;
 import drinkshop.repository.Repository;
+import drinkshop.service.validator.OrderItemValidator;
+import drinkshop.service.validator.OrderValidator;
 
 import java.util.List;
 
@@ -11,7 +13,8 @@ public class OrderService {
 
     private final Repository<Integer, Order> orderRepo;
     private final Repository<Integer, Product> productRepo;
-
+    private final OrderValidator validator = new OrderValidator();
+    private final OrderItemValidator validatorItem = new OrderItemValidator();
     public OrderService(Repository<Integer, Order> orderRepo, Repository<Integer, Product> productRepo) {
         this.orderRepo = orderRepo;
         this.productRepo = productRepo;
@@ -19,6 +22,7 @@ public class OrderService {
     }
 
     public void addOrder(Order o) {
+        validator.validate(o);
         orderRepo.save(o);
     }
 
@@ -57,6 +61,7 @@ public class OrderService {
         if(item.getQuantity() <= 0)
             throw new IllegalArgumentException("Cantitate invalida");
 
+        validatorItem.validate(item);
         o.getItems().add(item);
         orderRepo.update(o);
     }

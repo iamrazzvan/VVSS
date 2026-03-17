@@ -18,6 +18,12 @@ public class ProductValidator implements Validator<Product> {
         if (product.getPret() <= 0)
             errors += "Pret invalid!\n";
 
+        if(product.getCategorie() == null)
+            errors += "Categorie nu poate fi gol!\n";
+
+        if(product.getTip() == null)
+            errors += "Tip nu poate fi gol!\n";
+
         if (!errors.isEmpty())
             throw new ValidationException(errors);
     }
