@@ -183,7 +183,7 @@ class FileProductRepositoryTest {
     @Tag("BVA")
     @DisplayName("TC2_BVA Valid - cond 15: id=1, pret=2 => produs adaugat")
     void testSave_BVA_Valid_PretDoi() {
-        Product product = new Product(1, "Pumpkin-Spice latte", 0.2,
+        Product product = new Product(1, "Pumpkin-Spice latte", 2,
                 CategorieBautura.ICED_COFFEE, TipBautura.BASIC);
 
         validator.validate(product);
