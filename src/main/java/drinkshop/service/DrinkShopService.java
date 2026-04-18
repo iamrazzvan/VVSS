@@ -56,6 +56,11 @@ public class DrinkShopService {
 
     // ---------- ORDER ----------
     public void addOrder(Order o) {
+        for (OrderItem item : o.getItems()) {
+                for (int i = 0; i < item.getQuantity(); i++) {
+                    comandaProdus(item.getProduct());
+                }
+            }
         orderService.addOrder(o);
     }
 

@@ -11,3 +11,4 @@
 11,apa:200.0,zahar:100.0,lime:10.0
 12,colorant:6.0
 13,colorant_portocaliu:5.0
+14,cafea_macinata:5.0,apa:5.0
