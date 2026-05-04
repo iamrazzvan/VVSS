@@ -12,9 +12,10 @@ import java.util.Map;
 public class StocService {
 
     private final Repository<Integer, Stoc> stocRepo;
-    private final StocValidator validator = new StocValidator();
-    public StocService(Repository<Integer, Stoc> stocRepo) {
+    private final StocValidator validator;
+    public StocService(Repository<Integer, Stoc> stocRepo, StocValidator validator) {
         this.stocRepo = stocRepo;
+        this.validator = validator;
     }
 
     public List<Stoc> getAll() {
