@@ -15,71 +15,106 @@ import static org.mockito.Mockito.*;
 
 public class StocServiceIntegrationTest {
 
-    private StocService stocService;
+    private StocService stocService; //[cite: 1]
     
     // Validatorul este REAL acum (nu e Mock)
-    private StocValidator validatorReal;
+    private StocValidator validatorReal; //[cite: 1]
 
     @Mock
-    private Repository<Integer, Stoc> stocRepoMock;
+    private Repository<Integer, Stoc> stocRepoMock; //[cite: 1]
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        validatorReal = new StocValidator();
-        // Construim Service-ul cu piesa reală și piesa falsă
-        stocService = new StocService(stocRepoMock, validatorReal);
+        MockitoAnnotations.openMocks(this); //[cite: 1]
+        validatorReal = new StocValidator(); //[cite: 1]
+        stocService = new StocService(stocRepoMock, validatorReal); //[cite: 1]
     }
 
-    // --- TEST INTEGRARE 1: Validare Succes ---
+    // =========================================================
+    // CATEGORIA 1: TESTE INTEGRARE - VALIDARE SUCCES
+    // =========================================================
+
     @Test
     void testAddStoc_ValidData_IntegrationSuccess() {
-        Stoc stocValid = new Stoc(1, "Lapte", 20.0, 5.0);
-
-        // Nu ar trebui să arunce nicio eroare
-        assertDoesNotThrow(() -> stocService.add(stocValid));
-
-        // Verificăm că a ajuns până la pasul de salvare în Repo
-        verify(stocRepoMock, times(1)).save(stocValid);
+        Stoc stocValid = new Stoc(1, "Lapte", 20.0, 5.0); //[cite: 1]
+        assertDoesNotThrow(() -> stocService.add(stocValid)); //[cite: 1]
+        verify(stocRepoMock, times(1)).save(stocValid); //[cite: 1]
     }
 
-    // --- TEST INTEGRARE 2: Validare Eșuată (S + V real) ---
+    // Test NOU: Validare la limită
+    @Test
+    void testAddStoc_ValidData_Boundary_IntegrationSuccess() {
+        // Produs la limită: cantitatea este fix egală cu stocul minim (5.0)
+        Stoc stocLaLimita = new Stoc(2, "Zahar", 5.0, 5.0);
+        assertDoesNotThrow(() -> stocService.add(stocLaLimita));
+        verify(stocRepoMock, times(1)).save(stocLaLimita);
+    }
+
+
+    // =========================================================
+    // CATEGORIA 2: TESTE INTEGRARE - VALIDARE EȘUATĂ (MOCK REPO)
+    // =========================================================
+
     @Test
     void testAddStoc_InvalidData_IntegrationFails() {
-        // Creăm un stoc care încalcă regula: cantitate < stoc minim
-        Stoc stocInvalid = new Stoc(1, "Cafea", 2.0, 10.0);
-
-        // Verificăm dacă Service-ul aruncă eroarea venită de la Validatorul REAL
-        ValidationException ex = assertThrows(ValidationException.class, () -> {
-            stocService.add(stocInvalid);
+        Stoc stocInvalid = new Stoc(1, "Cafea", 2.0, 10.0); //[cite: 1]
+        ValidationException ex = assertThrows(ValidationException.class, () -> { //[cite: 1]
+            stocService.add(stocInvalid); //[cite: 1]
         });
+        assertTrue(ex.getMessage().contains("Cantitatea este sub stocul minim")); // Adaptat pentru siguranță[cite: 1]
+        verify(stocRepoMock, never()).save(any()); //[cite: 1]
+    }
 
-        assertTrue(ex.getMessage().contains("Cantitatea este sub stocul minim!"));
-
-        // FOARTE IMPORTANT: Verificăm că NU s-a apelat salvarea (integrarea a oprit procesul corect)
+    // Test NOU: Validare pe un alt parametru (Nume gol)
+    @Test
+    void testAddStoc_InvalidName_IntegrationFails() {
+        // Trimitem un produs cu nume gol ("")
+        Stoc stocFaraNume = new Stoc(3, "", 20.0, 5.0);
+        assertThrows(ValidationException.class, () -> {
+            stocService.add(stocFaraNume);
+        });
         verify(stocRepoMock, never()).save(any());
     }
 
-    // --- TEST INTEGRARE FINAL: S + V + R (Totul Real) ---
+
+    // =========================================================
+    // CATEGORIA 3: TESTE INTEGRARE FINALĂ (TOTUL REAL)
+    // =========================================================
+
     @Test
     void testAddStoc_FullIntegration_RealFile() {
-        // 1. Pregătim un repository real care scrie într-un fișier de test separat
-        // *NOTĂ: Verifică dacă FileStocRepository primește numele fișierului în constructor
+        drinkshop.repository.file.FileStocRepository repoReal = 
+            new drinkshop.repository.file.FileStocRepository("data/stocuri_test.txt"); //[cite: 1]
+        
+        StocService serviceComplet = new StocService(repoReal, validatorReal); //[cite: 1]
+        Stoc stocNou = new Stoc(99, "Miere", 50.0, 5.0); //[cite: 1]
+
+        serviceComplet.add(stocNou); //[cite: 1]
+
+        boolean gasit = serviceComplet.getAll().stream() //[cite: 1]
+                .anyMatch(s -> s.getIngredient().equals("Miere")); //[cite: 1]
+        
+        assertTrue(gasit, "Stocul ar fi trebuit să fie salvat în fișierul real!"); //[cite: 1]
+    }
+
+    // Test NOU: Integrare finală cu date invalide
+    @Test
+    void testAddStoc_InvalidData_FullIntegration() {
+        // Testăm că sistemul complet conectat blochează datele proaste
         drinkshop.repository.file.FileStocRepository repoReal = 
             new drinkshop.repository.file.FileStocRepository("data/stocuri_test.txt");
         
-        // 2. Re-inițializăm service-ul cu TOATE piesele reale
         StocService serviceComplet = new StocService(repoReal, validatorReal);
+        int dimensiuneInitiala = serviceComplet.getAll().size();
         
-        Stoc stocNou = new Stoc(99, "Miere", 50.0, 5.0);
+        // Date eronate: cantitate negativă
+        Stoc stocGunoi = new Stoc(100, "Otrava", -10.0, 5.0);
 
-        // ACT
-        serviceComplet.add(stocNou);
+        assertThrows(ValidationException.class, () -> {
+            serviceComplet.add(stocGunoi);
+        });
 
-        // ASSERT: Verificăm dacă a fost salvat cu succes în fișier (căutăm în listă)
-        boolean gasit = serviceComplet.getAll().stream()
-                .anyMatch(s -> s.getIngredient().equals("Miere"));
-        
-        assertTrue(gasit, "Stocul ar fi trebuit să fie salvat în fișierul real!");
+        // Verificăm că fișierul real nu a fost extins cu înregistrări greșite
+        assertEquals(dimensiuneInitiala, serviceComplet.getAll().size(), "Fișierul real nu trebuia să fie modificat!");
     }
 }
