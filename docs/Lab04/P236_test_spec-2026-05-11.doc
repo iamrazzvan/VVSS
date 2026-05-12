@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>testspec Proiect236 - rlir3620_IntT</title>
+<link type="text/css" rel="stylesheet" href="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/css/tl_documents.css" />
+<style type="text/css" media="print">.notprintable { display:none;}</style>
+</head>
+<body>
+<div>
+<div style="float:right;">TestLink Community [configure $tlCfg-&gt;document_generator-&gt;company_name]</div>
+<div>&nbsp;</div><hr />
+<p style="text-align: center;"><img alt="TestLink logo" title="configure using $tlCfg->document_generator->company_logo"  width= height= src="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/images/tl-logo-transparent-25.png" /></p></div>
+<div class="doc_title"><p>Test Specification</p></div>
+<div class="doc_title" style="text-align:left;margin: auto;"><p>Test Project: Proiect236<br/>Test Suite: Proiect236 - rlir3620_IntT</p></div>
+<div class="summary"><p id="printedby">Printed by TestLink on 11/05/2026</p></div>
+<div class="pagefooter" id="copyright">2012 &copy; TestLink Community</div>
+<h1 class="general" style="page-break-before: always">Table Of Contents</h1><div class="toc"><p style="padding-left: 20px;"><b><a href="#toc_1">1.rlir3620_IntT</a></b></p>
+<p style="padding-left: 45px;"><a href="#toc_tc30874">P236-66: TC01_ValidData_IntegrationSuccess</a></p><p style="padding-left: 45px;"><a href="#toc_tc30876">P236-67: TC02_InvalidData_QuantityBelowMin</a></p><p style="padding-left: 45px;"><a href="#toc_tc30878">P236-68: TC03_InvalidData_BoundaryCondition</a></p><p style="padding-left: 45px;"><a href="#toc_tc30880">P236-69: TC04_FullIntegration_RealFile</a></p></div><h1 class="doclevel" >Scope</h1>
+<div class="txtlevel"><p>Proiect de testare pentru studentii din grupa 236.</p></div>
+ <br/><a name='toc_1'></a>
+<h1 class='doclevel'>1.Test Suite : rlir3620_IntT</h1>
+<a name="toc_tc30874"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P236-66: TC01_ValidData_IntegrationSuccess&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">rednicluca</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Verifică integrarea de succes &icirc;ntre Service și Validatorul real. Testul confirmă că un obiect Stoc cu date corecte trece de validare și ajunge să apeleze metoda de salvare din Repository-ul (Mock).</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>
+	<p>Obiect Stoc valid:&nbsp;ID: 1, Nume: &quot;Lapte&quot;, Cantitate: 20.0, StocMinim: 5.0.</p>
+	</li>
+	<li>
+	<p>Validatorul real este utilizat pentru a procesa regulile de business.</p>
+	</li>
+	<li>
+	<p><strong>Mapare Java (Custom Field):</strong>&nbsp;testAddStoc_ValidData_IntegrationSuccess</p>
+	</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.StocServiceIntegrationTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >testAddStoc_ValidData_IntegrationSuccess</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">rsir3617_F01:  Adaugare Produs [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc30876"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P236-67: TC02_InvalidData_QuantityBelowMin&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">rednicluca</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Verifică dacă integrarea oprește corect salvarea c&acirc;nd datele sunt invalide. Testul confirmă că Validatorul real aruncă o&nbsp;ValidationException&nbsp;c&acirc;nd cantitatea este sub pragul minim, iar Repository-ul nu este apelat.</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>
+	<p>Obiect Stoc invalid:&nbsp;Cantitate: 2.0, StocMinim: 10.0.</p>
+	</li>
+	<li>
+	<p>Se verifică faptul că metoda&nbsp;save()&nbsp;din Repo nu este executată niciodată &icirc;n acest scenariu.</p>
+	</li>
+	<li>
+	<p><strong>Mapare Java (Custom Field):</strong>&nbsp;testAddStoc_InvalidData_IntegrationFails</p>
+	</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.StocServiceIntegrationTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >testAddStoc_InvalidData_IntegrationFails</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">rsir3617_F02:  Gestionarea stocului de ingrediente [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc30878"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P236-68: TC03_InvalidData_BoundaryCondition&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">rednicluca</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Test de integrare pentru condiții la limită. Se verifică dacă sistemul acceptă un produs unde cantitatea este exact egală cu stocul minim (valoare critică &icirc;n logica de business).</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>
+	<p>Obiect Stoc la limită:&nbsp;Cantitate: 5.0, StocMinim: 5.0.</p>
+	</li>
+	<li>
+	<p>Se confirmă că validatorul real permite trecerea datelor către stratul de persistență.</p>
+	</li>
+	<li>
+	<p><strong>Mapare Java (Custom Field):</strong>&nbsp;testAddStoc_ValidData_Boundary_IntegrationSuccess</p>
+	</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.StocServiceIntegrationTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >testAddStoc_InvalidName_IntegrationFails</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">rsir3617_F02:  Gestionarea stocului de ingrediente [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc30880"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P236-69: TC04_FullIntegration_RealFile&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">rednicluca</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Verifică integrarea totală a componentelor (Service + Validator + FileRepository). Testul confirmă că datele trec de validare și sunt scrise fizic &icirc;ntr-un fișier real pe disk (data/stocuri_test.txt).</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>
+	<p>Se utilizează&nbsp;FileStocRepository&nbsp;(nu Mock).</p>
+	</li>
+	<li>
+	<p>Fișierul de destinație:&nbsp;data/stocuri_test.txt.</p>
+	</li>
+	<li>
+	<p>Verificare prin citirea listei totale după adăugare.</p>
+	</li>
+	<li>
+	<p><strong>Mapare Java (Custom Field):</strong>&nbsp;testAddStoc_FullIntegration_RealFile</p>
+	</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.StocServiceIntegrationTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >testAddStoc_FullIntegration_RealFile</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">rsir3617_F01:  Adaugare Produs [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+
+</body>
+</html>
