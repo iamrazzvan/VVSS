@@ -5,6 +5,7 @@ import drinkshop.domain.Reteta;
 import drinkshop.domain.Stoc;
 import drinkshop.repository.Repository;
 import drinkshop.service.validator.StocValidator;
+import java.util.stream.Collectors;
 
 import java.util.List;
 import java.util.Map;
@@ -73,7 +74,8 @@ public class StocService {
 
             List<Stoc> ingredienteStoc = stocRepo.findAll().stream()
                     .filter(s -> s.getIngredient().equalsIgnoreCase(ingredient))
-                    .toList();
+                    //.toList();
+                    .collect(Collectors.toList());
 
             double ramas = necesar;
 

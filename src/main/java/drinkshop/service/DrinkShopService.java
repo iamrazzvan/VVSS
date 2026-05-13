@@ -25,7 +25,8 @@ public class DrinkShopService {
         this.productService = new ProductService(productRepo);
         this.orderService = new OrderService(orderRepo, productRepo);
         this.retetaService = new RetetaService(retetaRepo);
-        this.stocService = new StocService(stocService);
+        //this.stocService = new StocService(stocService);
+        this.stocService = new StocService(stocService, new drinkshop.service.validator.StocValidator());
         this.report = new DailyReportService(orderRepo);
     }
 

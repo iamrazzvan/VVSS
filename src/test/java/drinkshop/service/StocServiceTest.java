@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mockito;
+import java.util.stream.Collectors;
 
 import java.util.List;
 
@@ -55,7 +56,8 @@ class StocServiceTest {
     @BeforeEach
     void setUp() {
         stocRepo = mock(FileStocRepository.class);
-        service = Mockito.spy(new StocService(stocRepo));
+        //service = Mockito.spy(new StocService(stocRepo));
+        service = Mockito.spy(new StocService(stocRepo, new drinkshop.service.validator.StocValidator()));
     }
 
     // =========================================================================
