@@ -8,6 +8,8 @@ module drinkshop {
     opens drinkshop.ui to javafx.fxml;
     exports drinkshop.ui;
 
-    opens drinkshop.domain to  javafx.base;
     exports drinkshop.domain;
+    opens drinkshop.repository to org.mockito, net.bytebuddy;
+    opens drinkshop.service to org.mockito, net.bytebuddy;
+    opens drinkshop.domain to javafx.base, org.mockito, net.bytebuddy;
 }
