@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,14 +39,14 @@ public class StocServiceMockTest {
     }
 
     @Test
-    void testAddStoc_ApeleazaDependenciesCorect() {
+    public void testAddStoc_ApeleazaDependenciesCorect() {
         stocService.add(stocDeTest);
         verify(validatorMock, times(1)).validate(stocDeTest);
         verify(stocRepoMock, times(1)).save(stocDeTest);
     }
 
     @Test
-    void testGetAll_ReturneazaListaCorecta() {
+    public void testGetAll_ReturneazaListaCorecta() {
         List<Stoc> listaFalsa = Arrays.asList(stocDeTest, new Stoc(2, "Faina", 50.0, 5.0));
         when(stocRepoMock.findAll()).thenReturn(listaFalsa);
 
@@ -56,7 +57,7 @@ public class StocServiceMockTest {
     }
 
     @Test
-    void testGetAll_CandNuExistaDate_ReturneazaListaGoala() {
+    public void testGetAll_CandNuExistaDate_ReturneazaListaGoala() {
         when(stocRepoMock.findAll()).thenReturn(new ArrayList<>());
         List<Stoc> rezultat = stocService.getAll();
         assertTrue(rezultat.isEmpty());
@@ -64,14 +65,14 @@ public class StocServiceMockTest {
     }
 
     @Test
-    void testDeleteStoc_ApeleazaRepoCorect() {
+    public void testDeleteStoc_ApeleazaRepoCorect() {
         Integer idDeSters = 1;
         stocService.delete(idDeSters);
         verify(stocRepoMock, times(1)).delete(idDeSters);
     }
 
     @Test
-    void testAddStoc_CandValidareaEsueaza_NuSeSalveaza() {
+    public void testAddStoc_CandValidareaEsueaza_NuSeSalveaza() {
         doThrow(new RuntimeException("Validare esuata")).when(validatorMock).validate(any());
         assertThrows(RuntimeException.class, () -> stocService.add(stocDeTest));
         verify(stocRepoMock, never()).save(any());

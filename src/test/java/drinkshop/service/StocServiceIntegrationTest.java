@@ -36,7 +36,7 @@ public class StocServiceIntegrationTest {
     // =========================================================
 
     @Test
-    void testAddStoc_ValidData_IntegrationSuccess() {
+    public void testAddStoc_ValidData_IntegrationSuccess() {
         Stoc stocValid = new Stoc(1, "Lapte", 20.0, 5.0); //[cite: 1]
         assertDoesNotThrow(() -> stocService.add(stocValid)); //[cite: 1]
         verify(stocRepoMock, times(1)).save(stocValid); //[cite: 1]
@@ -44,7 +44,7 @@ public class StocServiceIntegrationTest {
 
     // Test NOU: Validare la limită
     @Test
-    void testAddStoc_ValidData_Boundary_IntegrationSuccess() {
+    public void testAddStoc_ValidData_Boundary_IntegrationSuccess() {
         // Produs la limită: cantitatea este fix egală cu stocul minim (5.0)
         Stoc stocLaLimita = new Stoc(2, "Zahar", 5.0, 5.0);
         assertDoesNotThrow(() -> stocService.add(stocLaLimita));
@@ -57,7 +57,7 @@ public class StocServiceIntegrationTest {
     // =========================================================
 
     @Test
-    void testAddStoc_InvalidData_IntegrationFails() {
+    public void testAddStoc_InvalidData_IntegrationFails() {
         Stoc stocInvalid = new Stoc(1, "Cafea", 2.0, 10.0); //[cite: 1]
         ValidationException ex = assertThrows(ValidationException.class, () -> { //[cite: 1]
             stocService.add(stocInvalid); //[cite: 1]
@@ -68,7 +68,7 @@ public class StocServiceIntegrationTest {
 
     // Test NOU: Validare pe un alt parametru (Nume gol)
     @Test
-    void testAddStoc_InvalidName_IntegrationFails() {
+    public void testAddStoc_InvalidName_IntegrationFails() {
         // Trimitem un produs cu nume gol ("")
         Stoc stocFaraNume = new Stoc(3, "", 20.0, 5.0);
         assertThrows(ValidationException.class, () -> {
@@ -83,7 +83,7 @@ public class StocServiceIntegrationTest {
     // =========================================================
 
     @Test
-    void testAddStoc_FullIntegration_RealFile() {
+    public void testAddStoc_FullIntegration_RealFile() {
         drinkshop.repository.file.FileStocRepository repoReal = 
             new drinkshop.repository.file.FileStocRepository("data/stocuri_test.txt"); //[cite: 1]
         
@@ -100,7 +100,7 @@ public class StocServiceIntegrationTest {
 
     // Test NOU: Integrare finală cu date invalide
     @Test
-    void testAddStoc_InvalidData_FullIntegration() {
+    public void testAddStoc_InvalidData_FullIntegration() {
         // Testăm că sistemul complet conectat blochează datele proaste
         drinkshop.repository.file.FileStocRepository repoReal = 
             new drinkshop.repository.file.FileStocRepository("data/stocuri_test.txt");
